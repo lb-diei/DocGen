@@ -51,25 +51,37 @@ lb03/
 
 ## Available Templates
 
-### Government Documents
-| Template | Description |
-|----------|-------------|
-| notice | Official government notice |
+### Government Documents (政府公文)
+| Template | Description | 语言 |
+|----------|-------------|------|
+| notice | 正式通知模板 | 中文 |
+| official | 正式公文模板 | 中文 |
+| request | 请示报告模板 | 中文 |
 
-### Enterprise Documents
-| Template | Description |
-|----------|-------------|
-| notification | Internal company notification |
+### Enterprise Documents (企业公文)
+| Template | Description | 语言 |
+|----------|-------------|------|
+| notification | 内部通知模板 | 中文 |
+| meeting | 会议纪要模板 | 中文 |
+| report | 工作报告模板 | 中文 |
+| invitation | 邀请函模板 | 中文 |
 
-### Legal Documents
-| Template | Description |
-|----------|-------------|
-| contract | General contract template |
+### Legal Documents (法律文书)
+| Template | Description | 语言 |
+|----------|-------------|------|
+| contract | 合同模板 | 中文 |
+| authorization | 授权委托书模板 | 中文 |
 
-### Academic Documents
-| Template | Description |
-|----------|-------------|
-| paper | Academic paper/essay format |
+### Academic Documents (学术论文)
+| Template | Description | 语言 |
+|----------|-------------|------|
+| paper | 学术论文格式 | 中文 |
+| thesis | 毕业论文模板 | 中文 |
+
+### Custom (自定义模板)
+| Template | Description | 语言 |
+|----------|-------------|------|
+| custom | 用户自定义模板 | 中文 |
 
 
 ## How to Create Templates
@@ -144,6 +156,40 @@ python document_generator.py notice \
 | -l, --list | List available templates |
 | -v, --variable | Add variable (key=value) |
 
+
+## Add Custom Template
+
+We provide a **custom template** for users to create their own documents:
+
+| Template | Description |
+|----------|-------------|
+| custom | User-defined template (editable) |
+
+### How to Use Custom Template
+
+```bash
+# Generate with default values
+python document_generator.py custom -o mydoc.docx
+
+# Generate with your own variables
+python document_generator.py custom -o mydoc.docx \
+  -v title="My Title" \
+  -v author="My Name" \
+  -v date="2026-02-10"
+```
+
+### Create Your Own Template
+
+1. Copy `templates/custom/custom.md` to a new file
+2. Edit the template content
+3. Save with a new name (e.g., `templates/custom/my_template.md`)
+4. Use your template:
+
+```bash
+python document_generator.py my_template -o output.docx
+```
+
+---
 
 ## Add New Template
 
