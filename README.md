@@ -4,6 +4,9 @@
 
 > *Your document automation assistant - Create and format perfect documents in seconds!*
 
+**Author:** Your Name  
+**License:** MIT
+
 DocGen helps you:
 - Generate professional documents from Word templates
 - Format existing documents to standard styles (GB/T 9704-2012)
@@ -155,8 +158,5 @@ Create a Word document (.docx) in `templates/` directory with placeholders:
 
 MIT License - Free for personal and commercial use.
 
----
-
-## GitHub
-
-https://github.com/lb-diei/DocGen
+**Author:** Your Name  
+**Repository:** https://github.com/lb-diei/DocGen

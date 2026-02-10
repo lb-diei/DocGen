@@ -10,7 +10,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setup(
     name="docgen",
     version="1.0.0",
-    author="lb-diei",
+    author="Your Name",
     description="Document Generator & Formatter - Generate and format professional DOCX files",
     long_description=long_description,
     long_description_content_type="text/markdown",

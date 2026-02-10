@@ -11,10 +11,10 @@ Modules:
 - doc_formatter: Format documents with consistent styles
 - doc_gen_gui: Graphical user interface
 
-Author: lb-diei
+Author: Your Name
 License: MIT
 Repository: https://github.com/lb-diei/DocGen
 """
 
 __version__ = "1.0.0"
-__author__ = "lb-diei"
+__author__ = "Your Name"
