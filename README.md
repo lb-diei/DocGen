@@ -1,88 +1,150 @@
-# 📄 DocFormatter
+# 📄 DocFormatter (DFm)
 
-**Document Template System - Generate Professional DOCX Documents from Word Templates**
+**Professional Document Template System - Generate Perfect DOCX Files from Word Templates**
+
+> *DFm = DocFormatter (medium)* - Your document formatting assistant
+
+Transform your document workflow with **11 pre-built templates** across 5 categories. Simply edit variables, run a command, and get a professional document instantly!
 
 
 
-## What It Does
+## ✨ What Can DFm Do?
+
+DFm (DocFormatter) is your **document automation assistant** that helps you:
+
+- 📝 **Generate** professional documents in seconds
+- 🎨 **Use** pre-designed Word templates (fully editable)
+- 🔄 **Customize** templates for your specific needs
+- 📊 **Automate** document creation with variables
+- 🚀 **Save** hours of formatting time
+
+### Perfect For:
+- Government officials writing official documents
+- Business professionals creating reports & invitations
+- Legal teams drafting contracts & authorizations
+- Students formatting academic papers & theses
+- Anyone who needs consistent, professional documents
+
+
+## 🚀 Quick Start
+
+```bash
+# 1. Install dependencies
+pip install python-docx
+
+# 2. List all available templates
+python document_generator.py -l
+
+# 3. Generate a document (e.g., government notice)
+python document_generator.py notice -o 我的通知.docx
+
+# 4. Generate with custom variables
+python document_generator.py notice -o 年终通知.docx \
+  -v title="关于2025年度工作总结的通知" \
+  -v author="人力资源部" \
+  -v date="2026-02-10"
+```
+
+### Output Example
+```
+Available templates:
+  - notice        (政府公文 - 通知)
+  - request       (政府公文 - 请示报告)
+  - notification  (企业公文 - 内部通知)
+  - meeting       (企业公文 - 会议纪要)
+  - report        (企业公文 - 工作报告)
+  - invitation    (企业公文 - 邀请函)
+  - contract      (法律文书 - 合同)
+  - authorization (法律文书 - 授权委托书)
+  - paper         (学术论文 - 论文)
+  - thesis        (学术论文 - 毕业论文)
+  - custom        (自定义模板)
+```
+
+---
+
+## 📖 What It Does
 
 | Input | Output |
 |-------|---------|
-| Word Template (.docx) | DOCX Document |
-| User Variables | Formatted Content |
+| Word Template (.docx) | Professional DOCX Document |
+| Your Variables | Automatically Filled Content |
 | Template Name | Ready-to-Use File |
 
 
-## Quick Start
-
-```bash
-# Install dependencies
-pip install python-docx
-
-# List available templates
-python document_generator.py -l
-
-# Generate a document
-python document_generator.py notice -o my_document.docx
-
-# Generate with custom variables
-python document_generator.py notice -o my_doc.docx -v title="My Title" -v author="John"
-```
-
-
-## Template Structure
+## 📁 Project Structure
 
 ```
 lb03/
-├── document_generator.py    # Main program
-├── templates/              # Template directory
-│   ├── government/        # Government documents
-│   │   └── notice.docx  # Notice template
-│   ├── enterprise/      # Business documents
-│   │   └── notification.docx
-│   ├── legal/           # Legal documents
-│   │   └── contract.docx
-│   ├── academic/        # Academic papers
-│   │   └── paper.docx
-│   └── custom/         # Custom templates
-│       └── custom.docx
+├── document_generator.py     # Main program - generate DOCX from templates
+├── templates/               # 📂 11 Word templates ready to use
+│   ├── government/         # 🏛️ Government documents
+│   │   ├── notice.docx     # Official notice template
+│   │   └── request.docx    # Request document template
+│   ├── enterprise/         # 🏢 Business documents
+│   │   ├── notification.docx
+│   │   ├── meeting.docx
+│   │   ├── report.docx
+│   │   └── invitation.docx
+│   ├── legal/              # ⚖️ Legal documents
+│   │   ├── contract.docx
+│   │   └── authorization.docx
+│   ├── academic/           # 🎓 Academic documents
+│   │   ├── paper.docx
+│   │   └── thesis.docx
+│   └── custom/             # ✏️ Your custom template
+│       └── custom.docx     # Blank template - edit freely!
 ├── README.md
 └── requirements.txt
 ```
 
+> 📝 **Note**: All templates are `.docx` files - edit them directly in Microsoft Word!
 
-## Available Templates
 
-### Government Documents (政府公文)
-| Template | Description | Language |
-|----------|-------------|----------|
-| notice | 正式通知模板 | 中文 |
-| request | 请示报告模板 | 中文 |
+## 📋 Available Templates (11 Templates)
 
-### Enterprise Documents (企业公文)
-| Template | Description | Language |
-|----------|-------------|----------|
-| notification | 内部通知模板 | 中文 |
-| meeting | 会议纪要模板 | 中文 |
-| report | 工作报告模板 | 中文 |
-| invitation | 邀请函模板 | 中文 |
+### 🏛️ Government Documents (政府公文)
+| Template | Chinese Name | Description |
+|----------|--------------|-------------|
+| `notice` | 通知模板 | Official notice for internal/external communication |
+| `request` | 请示报告模板 | Formal request document for superior approval |
 
-### Legal Documents (法律文书)
-| Template | Description | Language |
-|----------|-------------|----------|
-| contract | 合同模板 | 中文 |
-| authorization | 授权委托书模板 | 中文 |
+### 🏢 Enterprise Documents (企业公文)
+| Template | Chinese Name | Description |
+|----------|--------------|-------------|
+| `notification` | 内部通知模板 | Internal company announcements |
+| `meeting` | 会议纪要模板 | Meeting minutes with action items |
+| `report` | 工作报告模板 | Work reports with data tables |
+| `invitation` | 邀请函模板 | Event invitations with schedules |
 
-### Academic Documents (学术论文)
-| Template | Description | Language |
-|----------|-------------|----------|
-| paper | 学术论文格式 | 中文 |
-| thesis | 毕业论文模板 | 中文 |
+### ⚖️ Legal Documents (法律文书)
+| Template | Chinese Name | Description |
+|----------|--------------|-------------|
+| `contract` | 合同模板 | Standard contract with dual signatures |
+| `authorization` | 授权委托书模板 | Authorization letters with agent details |
 
-### Custom (自定义模板)
-| Template | Description | Language |
-|----------|-------------|----------|
-| custom | 用户自定义模板 | 中文 |
+### 🎓 Academic Documents (学术论文)
+| Template | Chinese Name | Description |
+|----------|--------------|-------------|
+| `paper` | 学术论文模板 | Academic paper with abstract & references |
+| `thesis` | 毕业论文模板 | Graduate thesis with all required sections |
+
+### ✏️ Custom Template (自定义模板)
+| Template | Chinese Name | Description |
+|----------|--------------|-------------|
+| `custom` | 用户自定义模板 | **Blank template for your own designs!** |
+
+---
+
+### 🌟 Why Use DFm?
+
+| Feature | Benefit |
+|---------|---------|
+| **Word-Based** | Edit templates directly in Microsoft Word |
+| **11 Templates** | Cover 90% of common document needs |
+| **Variable System** | Automate repetitive content |
+| **MIT License** | Free for personal & commercial use |
+| **Open Source** | Customize & extend as you need |
 
 
 ## How to Create Templates
@@ -149,52 +211,87 @@ python document_generator.py notice \
 ```
 
 
-## Command Options
+## ⚡ Command Options
 
-| Option | Description |
-|--------|-------------|
-| template | Template name (without .docx) |
-| -o, --output | Output filename (default: output.docx) |
-| -l, --list | List available templates |
-| -v, --variable | Add variable (key=value) |
+| Option | Description | Example |
+|--------|-------------|---------|
+| `template` | Template name (without .docx) | `notice` |
+| `-o, --output` | Output filename (default: output.docx) | `-o mydoc.docx` |
+| `-l, --list` | List all available templates | `-l` |
+| `-v, --variable` | Add variable (key=value) | `-v title="通知"` |
 
-
-## Add Custom Template
-
-### Use Built-in Custom Template
-
-1. Edit `templates/custom/custom.docx`
-2. Replace placeholders with your own content
-3. Use the template:
+### Examples
 
 ```bash
-python document_generator.py custom -o mydoc.docx
-```
+# List all templates
+python document_generator.py -l
 
-### Create New Template
+# Generate with defaults
+python document_generator.py notice -o output.docx
 
-1. Create a new Word document (.docx)
-2. Add placeholders where needed (e.g., {{title}}, {{author}}, {{date}})
-3. Save in appropriate folder (templates/government/, templates/enterprise/, etc.)
-4. Use the template:
+# Generate with custom title and author
+python document_generator.py notice \
+  -o 通知.docx \
+  -v title="年终通知" \
+  -v author="人事部"
 
-```bash
-python document_generator.py your_template_name -o output.docx
+# Use custom template
+python document_generator.py custom -o 我的文档.docx
 ```
 
 
-## Requirements
+## ✏️ Custom Template - Create Your Own!
+
+DFm includes a **special blank template** designed for you to create custom documents!
+
+### 🎯 How to Use the Custom Template
+
+```bash
+# Generate a document from the blank custom template
+python document_generator.py custom -o my_document.docx
+
+# Or customize with your own variables
+python document_generator.py custom -o mydoc.docx \
+  -v title="My Custom Title" \
+  -v author="My Name" \
+  -v date="2026-02-10"
+```
+
+### 🚀 Create Your Own Template
+
+1. **Open** `templates/custom/custom.docx` in Microsoft Word
+2. **Edit** the document layout and styling as needed
+3. **Add** placeholders like `{{title}}`, `{{author}}`, `{{date}}`
+4. **Save** to a new file (e.g., `templates/enterprise/my_report.docx`)
+5. **Use** your new template:
+
+```bash
+python document_generator.py my_report -o output.docx
+```
+
+### 📝 Placeholder Variables
+
+| Placeholder | Example |
+|-------------|---------|
+| `{{title}}` | 年度工作总结 |
+| `{{author}}` | 张三 |
+| `{{date}}` | 2026-02-10 |
+| `{{content}}` | 主体内容... |
+| Any custom name! | `{{department}}`, `{{project}}` |
+
+> 💡 **Pro Tip**: Use meaningful variable names like `{{meeting_date}}`, `{{deadline}}`, `{{budget}}` to make your templates self-documenting!
+
+
+## 📦 Requirements
 
 | Package | Version |
 |---------|---------|
 | python-docx | >=1.1.0 |
 
-
-## License
+## 📄 License
 
 MIT License - Free to use and modify
 
-
-## Author
+## 👤 Author
 
 Created with Claude Code
