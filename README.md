@@ -1,48 +1,61 @@
 # 📄 Document Generator (DocGen)
 
-**Professional Document Template System - Generate Perfect DOCX Files from Word Templates**
+**Professional Document Template System & Document Formatter**
 
-> *Your document automation assistant - Create perfect documents in seconds!*
+> *Your document automation assistant - Create and format perfect documents in seconds!*
 
-Transform your document workflow with **11 pre-built templates** across 5 categories. Simply edit variables, run a command, and get a professional document instantly!
+DocGen helps you:
+- 📝 **Generate** professional documents from Word templates
+- 🎨 **Format** existing documents to standard styles (GB/T 9704-2012)
+- 🖥️ **GUI Interface** for easy template selection and style customization
 
+---
 
+## 🛠️ Core Features
 
-## ✨ What Can DocGen Do?
+### 1. Document Generator (模板生成)
+Generate documents from pre-designed Word templates with variables.
 
-DocGen (Document Generator) is your **document automation assistant** that helps you:
+### 2. Document Formatter (文档格式化)
+Format any Word document to standard styles:
+- Auto-detect heading levels
+- Apply consistent fonts and sizes
+- Set margins and line spacing
 
-- 📝 **Generate** professional documents in seconds
-- 🎨 **Use** pre-designed Word templates (fully editable)
-- 🔄 **Customize** templates for your specific needs
-- 📊 **Automate** document creation with variables
-- 🚀 **Save** hours of formatting time
+### 3. GUI Frontend (图形界面)
+Easy-to-use interface for:
+- Selecting templates
+- Customizing fonts, sizes, alignment
+- Previewing and applying styles
 
-### Perfect For:
-- Government officials writing official documents
-- Business professionals creating reports & invitations
-- Legal teams drafting contracts & authorizations
-- Students formatting academic papers & theses
-- Anyone who needs consistent, professional documents
-
+---
 
 ## 🚀 Quick Start
 
+### Option 1: GUI Interface (Recommended)
 ```bash
-# 1. Install dependencies
-pip install python-docx
+python doc_gen_gui.py
+```
+Opens an interactive window for easy document generation and formatting.
 
-# 2. List all available templates
-python document_generator.py -l
-
-# 3. Generate a document (e.g., government notice)
+### Option 2: Command Line - Document Generation
+```bash
+# Generate from template
 python document_generator.py notice -o 我的通知.docx
 
-# 4. Generate with custom variables
+# With custom variables
 python document_generator.py notice -o 年终通知.docx \
   -v title="关于2025年度工作总结的通知" \
-  -v author="人力资源部" \
-  -v date="2026-02-10"
+  -v author="人力资源部"
+```
+
+### Option 3: Command Line - Document Formatting
+```bash
+# Format a Word document to standard style
+python doc_formatter.py 原始文档.docx -o 格式化后.docx
+
+# With custom style
+python doc_formatter.py 原始.docx -o 输出.docx --preview
 ```
 
 ### Output Example
