@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Document Template System
+DocFormatter - Document Template System
 
-Generate professional DOCX documents from customizable templates.
+Generate professional DOCX documents from Word templates.
 """
 
 import os
@@ -11,13 +11,12 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, Optional
 from docx import Document
-from docx.shared import Pt, Inches
+from docx.shared import Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.enum.style import WD_STYLE_TYPE
 
 
 class DocumentGenerator:
-    """Generate DOCX documents from templates."""
+    """Generate DOCX documents from Word templates."""
     
     def __init__(self, template_dir: str = "templates"):
         """Initialize with template directory."""
@@ -29,37 +28,31 @@ class DocumentGenerator:
             "content": "Your content here...",
         }
     
-    def load_template(self, template_name: str) -> Dict[str, str]:
-        """Load a template file."""
-        template_path = self.template_dir / f"{template_name}.md"
+    def load_template(self, template_name: str) -> Document:
+        """Load a Word template file."""
+        template_path = self.template_dir / f"{template_name}.docx"
         
         if not template_path.exists():
             raise FileNotFoundError(f"Template not found: {template_path}")
         
-        with open(template_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-        
-        # Parse simple key-value format
-        variables = {}
-        lines = content.split('\n')
-        current_section = ""
-        
-        for line in lines:
-            line = line.strip()
-            if line.startswith('[') and line.endswith(']'):
-                current_section = line[1:-1]
-            elif ':' in line and current_section == "variables":
-                key, value = line.split(':', 1)
-                variables[key.strip()] = value.strip()
-            elif line.startswith('# '):
-                # Title
-                variables['title'] = line[2:]
-            elif current_section == "content":
-                if 'content' not in variables:
-                    variables['content'] = ""
-                variables['content'] += line + "\n"
-        
-        return variables
+        return Document(template_path)
+    
+    def replace_variables(self, doc: Document, variables: Dict[str, Any]) -> Document:
+        """Replace variables in the document."""
+        for paragraph in doc.paragraphs:
+            for run in paragraph.runs:
+                text = run.text
+                for key, value in variables.items():
+                    if f"{{{{ {key} }}}}" in text:
+                        text = text.replace(f"{{{{ {key} }}}}", str(value))
+                        text = text.replace(f"{{{{{key}}}}", str(value))
+                        text = text.replace(f"{{ {key} }}", str(value))
+                    elif f"{{{{{key}}}}}" in text:
+                        text = text.replace(f"{{{{{key}}}}}", str(value))
+                    elif f"{{{{{key}}}}}" in text:
+                        text = text.replace(f"{{{{{key}}}}}", str(value))
+                run.text = text
+        return doc
     
     def generate_document(
         self,
@@ -68,47 +61,16 @@ class DocumentGenerator:
         variables: Optional[Dict[str, Any]] = None,
     ) -> str:
         """Generate a DOCX document from a template."""
-        # Load template variables
-        template_vars = self.load_template(template_name)
+        # Load template
+        doc = self.load_template(template_name)
         
-        # Merge with provided variables (user input overrides template defaults)
+        # Prepare variables
+        template_vars = self.default_vars.copy()
         if variables:
             template_vars.update(variables)
         
-        # Use default for missing values
-        for key, value in self.default_vars.items():
-            if key not in template_vars:
-                template_vars[key] = value
-        
-        # Create document
-        doc = Document()
-        
-        # Set title
-        title = doc.add_heading(template_vars.get('title', 'Document'), 0)
-        title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        
-        # Add metadata
-        if 'author' in template_vars:
-            author_para = doc.add_paragraph()
-            author_para.add_run(f"Author: {template_vars['author']}")
-            author_para.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        
-        if 'date' in template_vars:
-            date_para = doc.add_paragraph()
-            date_para.add_run(f"Date: {template_vars['date']}")
-            date_para.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        
-        # Add separator
-        doc.add_paragraph("_" * 50)
-        
-        # Add content
-        content = template_vars.get('content', '')
-        if content:
-            # Split by double newlines for paragraphs
-            paragraphs = content.strip().split('\n\n')
-            for para_text in paragraphs:
-                if para_text.strip():
-                    doc.add_paragraph(para_text.strip())
+        # Replace variables
+        doc = self.replace_variables(doc, template_vars)
         
         # Save document
         output_path = Path(output_name)
@@ -123,7 +85,7 @@ class DocumentGenerator:
             return []
         
         templates = []
-        for f in self.template_dir.glob('*.md'):
+        for f in self.template_dir.glob('*.docx'):
             templates.append(f.stem)
         
         return templates
@@ -133,8 +95,8 @@ def main():
     """CLI interface."""
     import argparse
     
-    parser = argparse.ArgumentParser(description='Document Template System')
-    parser.add_argument('template', nargs='?', help='Template name (without .md extension)')
+    parser = argparse.ArgumentParser(description='DocFormatter - Generate DOCX from templates')
+    parser.add_argument('template', nargs='?', help='Template name (without .docx extension)')
     parser.add_argument('-o', '--output', default='output.docx', help='Output filename')
     parser.add_argument('-l', '--list', action='store_true', help='List available templates')
     parser.add_argument('-v', '--variable', action='append', help='Variable in format key=value')

@@ -1,6 +1,6 @@
 # 📄 DocFormatter
 
-**Document Template System - Generate Professional DOCX Documents from Customizable Templates**
+**Document Template System - Generate Professional DOCX Documents from Word Templates**
 
 
 
@@ -8,7 +8,7 @@
 
 | Input | Output |
 |-------|---------|
-| Markdown Template | DOCX Document |
+| Word Template (.docx) | DOCX Document |
 | User Variables | Formatted Content |
 | Template Name | Ready-to-Use File |
 
@@ -37,13 +37,15 @@ lb03/
 ├── document_generator.py    # Main program
 ├── templates/              # Template directory
 │   ├── government/        # Government documents
-│   │   └── notice.md      # Notice template
-│   ├── enterprise/        # Business documents
-│   │   └── notification.md
-│   ├── legal/             # Legal documents
-│   │   └── contract.md
-│   └── academic/          # Academic papers
-│       └── paper.md
+│   │   └── notice.docx  # Notice template
+│   ├── enterprise/      # Business documents
+│   │   └── notification.docx
+│   ├── legal/           # Legal documents
+│   │   └── contract.docx
+│   ├── academic/        # Academic papers
+│   │   └── paper.docx
+│   └── custom/         # Custom templates
+│       └── custom.docx
 ├── README.md
 └── requirements.txt
 ```
@@ -52,65 +54,59 @@ lb03/
 ## Available Templates
 
 ### Government Documents (政府公文)
-| Template | Description | 语言 |
-|----------|-------------|------|
+| Template | Description | Language |
+|----------|-------------|----------|
 | notice | 正式通知模板 | 中文 |
-| official | 正式公文模板 | 中文 |
 | request | 请示报告模板 | 中文 |
 
 ### Enterprise Documents (企业公文)
-| Template | Description | 语言 |
-|----------|-------------|------|
+| Template | Description | Language |
+|----------|-------------|----------|
 | notification | 内部通知模板 | 中文 |
 | meeting | 会议纪要模板 | 中文 |
 | report | 工作报告模板 | 中文 |
 | invitation | 邀请函模板 | 中文 |
 
 ### Legal Documents (法律文书)
-| Template | Description | 语言 |
-|----------|-------------|------|
+| Template | Description | Language |
+|----------|-------------|----------|
 | contract | 合同模板 | 中文 |
 | authorization | 授权委托书模板 | 中文 |
 
 ### Academic Documents (学术论文)
-| Template | Description | 语言 |
-|----------|-------------|------|
+| Template | Description | Language |
+|----------|-------------|----------|
 | paper | 学术论文格式 | 中文 |
 | thesis | 毕业论文模板 | 中文 |
 
 ### Custom (自定义模板)
-| Template | Description | 语言 |
-|----------|-------------|------|
+| Template | Description | Language |
+|----------|-------------|----------|
 | custom | 用户自定义模板 | 中文 |
 
 
 ## How to Create Templates
 
-Create a Markdown file in `templates/` directory:
+Create a Word document (.docx) in `templates/` directory with placeholders:
 
-```markdown
-# Document Title
-
-[variables]
-title: Default Title
-author: Author Name
-date: 2026-01-01
-
-[content]
-## Section 1
-Your content here.
-
-## Section 2
-More content...
+```
+{{title}}     - Document title
+{{author}}    - Author name
+{{date}}      - Date
+{{content}}   - Main content
+{{variable}}  - Any custom variable
 ```
 
-### Template Format
+### Example Placeholders
 
-| Section | Purpose |
-|---------|---------|
-| `# Title` | Document title (appears as heading) |
-| `[variables]` | Default variable values |
-| `[content]` | Document body content |
+| Placeholder | Example Value |
+|-------------|---------------|
+| {{title}} | 关于开展2026年度工作的通知 |
+| {{author}} | 人力资源部 |
+| {{date}} | 2026-02-10 |
+| {{content}} | 具体内容描述... |
+| {{meeting_date}} | 2026年1月15日 |
+| {{location}} | 会议室A |
 
 
 ## Usage Examples
@@ -125,9 +121,16 @@ Output:
 ```
 Available templates:
   - notice
+  - request
   - notification
+  - meeting
+  - report
+  - invitation
   - contract
+  - authorization
   - paper
+  - thesis
+  - custom
 ```
 
 ### Generate with Defaults
@@ -141,9 +144,8 @@ python document_generator.py notice -o output.docx
 ```bash
 python document_generator.py notice \
   -o report.docx \
-  -v title="Annual Report" \
-  -v author="Finance Dept" \
-  -v content="Quarterly financial summary..."
+  -v title="年度通知" \
+  -v author="人事部"
 ```
 
 
@@ -151,7 +153,7 @@ python document_generator.py notice \
 
 | Option | Description |
 |--------|-------------|
-| template | Template name (without .md) |
+| template | Template name (without .docx) |
 | -o, --output | Output filename (default: output.docx) |
 | -l, --list | List available templates |
 | -v, --variable | Add variable (key=value) |
@@ -159,46 +161,25 @@ python document_generator.py notice \
 
 ## Add Custom Template
 
-We provide a **custom template** for users to create their own documents:
+### Use Built-in Custom Template
 
-| Template | Description |
-|----------|-------------|
-| custom | User-defined template (editable) |
-
-### How to Use Custom Template
+1. Edit `templates/custom/custom.docx`
+2. Replace placeholders with your own content
+3. Use the template:
 
 ```bash
-# Generate with default values
 python document_generator.py custom -o mydoc.docx
-
-# Generate with your own variables
-python document_generator.py custom -o mydoc.docx \
-  -v title="My Title" \
-  -v author="My Name" \
-  -v date="2026-02-10"
 ```
 
-### Create Your Own Template
+### Create New Template
 
-1. Copy `templates/custom/custom.md` to a new file
-2. Edit the template content
-3. Save with a new name (e.g., `templates/custom/my_template.md`)
-4. Use your template:
-
-```bash
-python document_generator.py my_template -o output.docx
-```
-
----
-
-## Add New Template
-
-1. Create a `.md` file in `templates/` subdirectory
-2. Follow the template format
-3. Test with:
+1. Create a new Word document (.docx)
+2. Add placeholders where needed (e.g., {{title}}, {{author}}, {{date}})
+3. Save in appropriate folder (templates/government/, templates/enterprise/, etc.)
+4. Use the template:
 
 ```bash
-python document_generator.py your_template -o test.docx
+python document_generator.py your_template_name -o output.docx
 ```
 
 
