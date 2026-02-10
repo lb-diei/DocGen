@@ -26,10 +26,16 @@ class DocumentGenerator:
             template_dir = str(script_dir / "templates")
         self.template_dir = Path(template_dir)
         self.default_vars = {
-            "title": "Document Title",
-            "author": "Author Name",
+            "title": "文章标题",
+            "author": "作者姓名",
             "date": datetime.now().strftime("%Y-%m-%d"),
-            "content": "Your content here...",
+            "introduction": "引言/开篇内容...",
+            "heading1": "一级标题",
+            "heading2": "二级标题",
+            "heading3": "三级标题",
+            "content": "正文内容...",
+            "conclusion": "结论/总结...",
+            "signature": "落款（签名、日期）",
         }
     
     def load_template(self, template_name: str) -> Document:
@@ -89,10 +95,14 @@ class DocumentGenerator:
             return []
         
         templates = []
-        for f in self.template_dir.glob('*.docx'):
-            templates.append(f.stem)
+        # Search recursively for all .docx files
+        for f in self.template_dir.rglob('*.docx'):
+            # Get relative path and use that as template name
+            rel_path = f.relative_to(self.template_dir)
+            template_name = str(rel_path).replace('\\', '/').replace('/', '_')
+            templates.append(template_name)
         
-        return templates
+        return sorted(set(templates))
 
 
 def main():
@@ -134,7 +144,19 @@ def main():
         # Interactive mode: prompt user for variables
         print(f"\n[DocGen] Generating document from template: {args.template}")
         print("Please fill in the following values (press Enter to use default):\n")
-        common_vars = ['title', 'author', 'date', 'content', 'doc_number', 'meeting_date', 'location', 'period', 'event_name', 'event_date', 'event_location', 'major', 'advisor', 'university']
+        # Writing variables
+        common_vars = [
+            'title',        # 文章标题
+            'author',       # 作者
+            'date',         # 日期
+            'introduction', # 引言
+            'heading1',     # 一级标题
+            'heading2',     # 二级标题
+            'heading3',     # 三级标题
+            'content',      # 正文内容
+            'conclusion',   # 结论
+            'signature',    # 落款
+        ]
         for var in common_vars:
             default = generator.default_vars.get(var, '')
             user_input = input(f"  {var} [{default}]: ").strip()
