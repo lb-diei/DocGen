@@ -88,8 +88,10 @@ Available templates:
 ## 📁 Project Structure
 
 ```
-lb03/
-├── document_generator.py     # Main program - generate DOCX from templates
+DocGen/
+├── document_generator.py     # Main CLI - generate DOCX from templates
+├── doc_formatter.py          # Format documents to standard styles
+├── doc_gen_gui.py            # 🖥️ Graphical interface (recommended)
 ├── templates/               # 📂 11 Word templates ready to use
 │   ├── government/         # 🏛️ Government documents
 │   │   ├── notice.docx     # Official notice template
