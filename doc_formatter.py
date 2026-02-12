@@ -22,6 +22,7 @@ class DocumentFormatter:
     def __init__(self, style_config: Dict[str, Any] = None):
         """Initialize with style configuration."""
         self.config = style_config or self.get_default_style()
+        self.first_para_after_title = False
     
     def get_default_style(self) -> Dict[str, Any]:
         """Get default Chinese document style (GB/T 9704-2012)."""
@@ -221,56 +222,75 @@ class DocumentFormatter:
         content_start = 0
         
         if lines and lines[0].startswith('---'):
-            # Parse YAML front matter
             content_start = 1
             for i, line in enumerate(lines[1:], 1):
                 if line.startswith('---'):
                     content_start = i + 1
                     break
-                if ':' in line:
-                    key, value = line.split(':', 1)
-                    metadata[key.strip()] = value.strip()
         
-        # Add author info if available
-        if 'author' in metadata:
-            author_para = doc.add_paragraph(metadata['author'])
-            self.apply_style_to_paragraph(author_para, self.config.get('signature', {}))
+        # Build document
+        in_signature_section = False
+        signature_count = 0
         
-        # Add date if available
-        if 'date' in metadata:
-            date_para = doc.add_paragraph(metadata['date'])
-            self.apply_style_to_paragraph(date_para, self.config.get('signature', {}))
-        
-        # Add blank line
-        if metadata:
-            doc.add_paragraph()
-        
-        # Process main content
         for line in lines[content_start:]:
-            line = line.strip()
-            if not line:
+            line_clean = line.strip()
+            
+            # Check for signature marker
+            if line_clean.startswith('---'):
+                in_signature_section = True
+                signature_count = 0
+                continue
+            
+            if not line_clean:
+                # Empty line - just skip
                 continue
             
             # Detect line type by markdown markers
-            if line.startswith('# '):
-                para = doc.add_heading(line[2:].strip(), 0)
+            if line_clean.startswith('# '):
+                para = doc.add_heading(line_clean[2:].strip(), 0)
                 self.apply_style_to_paragraph(para, self.config.get('title', {}))
-                # Title indent (2 chars like body)
-                para.paragraph_format.first_line_indent = Cm(1.0)
-                # Add extra spacing after title
-                para.paragraph_format.space_after = Pt(24)  # 空一行
-            elif line.startswith('## '):
-                para = doc.add_paragraph(line[3:].strip())
+                para.paragraph_format.space_after = Pt(24)
+                self.first_para_after_title = True
+                in_signature_section = False
+            
+            elif line_clean.startswith('## '):
+                para = doc.add_paragraph()
+                para.paragraph_format.left_indent = Cm(1.0)
+                run = para.add_run(line_clean[3:].strip())
                 self.apply_style_to_paragraph(para, self.config.get('heading1', {}))
-            elif line.startswith('### '):
-                para = doc.add_paragraph(line[4:].strip())
+                in_signature_section = False
+            
+            elif line_clean.startswith('### '):
+                para = doc.add_paragraph()
+                para.paragraph_format.left_indent = Cm(1.0)
+                run = para.add_run(line_clean[4:].strip())
                 self.apply_style_to_paragraph(para, self.config.get('heading2', {}))
-            elif line.startswith('---'):
-                para = doc.add_paragraph(line[3:].strip() if len(line) > 3 else '')
-                self.apply_style_to_paragraph(para, self.config.get('signature', {}))
+                in_signature_section = False
+            
+            elif in_signature_section:
+                # Signature line
+                para = doc.add_paragraph()
+                if signature_count == 0:
+                    para.paragraph_format.space_before = Pt(48)  # First signature line - space before
+                run = para.add_run(line_clean)
+                run.font.name = "FangSong_GB2312"
+                run.font.size = Pt(16)
+                para.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+                signature_count += 1
+            
             else:
-                para = doc.add_paragraph(line)
-                self.apply_style_to_paragraph(para, self.config.get('body', {}))
+                # Normal paragraph
+                para = doc.add_paragraph()
+                run = para.add_run(line_clean)
+                
+                # First paragraph after title (greeting) - no indent
+                if hasattr(self, 'first_para_after_title') and self.first_para_after_title:
+                    self.first_para_after_title = False
+                else:
+                    # Normal body text - first line indent
+                    para.paragraph_format.first_line_indent = Cm(1.0)
+                    para.runs[0].font.name = "FangSong_GB2312"
+                    para.runs[0].font.size = Pt(16)
         
         output = Path(output_path)
         output.parent.mkdir(parents=True, exist_ok=True)
